@@ -1,4 +1,4 @@
-# 🏗️ Architecture
+#  Architecture
 
 > Deep dive into the orchestration, state, and design of the
 > **Equity Research Multi-Agent System**.
@@ -126,7 +126,7 @@ where it's verifiable.**
 | `consistency_verifier` | `explanation` | edge |
 | `explanation` | `END` | edge |
 
-⚠️ **Note:** In `graph_workflow.py`, a failed verification sends the workflow
+ **Note:** In `graph_workflow.py`, a failed verification sends the workflow
 straight to `END`. There is no retry loop. `main_langgraph.py` has a
 `thesis_retry_node`, but it isn't wired the same way — see "Inconsistencies"
 below.
@@ -318,7 +318,7 @@ USER       graph.invoke()    market    thesis    verifier   portfolio   checks  
 
 ## 8. Inconsistencies & Known Issues
 
-### ⚠️ Two entry points diverge
+###  Two entry points diverge
 
 - `app/graph_workflow.py` → 6 nodes, no retry, ends early on verifier fail.
 - `main_langgraph.py` → 5 nodes, has `thesis_retry_node` but it isn't wired
@@ -328,7 +328,7 @@ USER       graph.invoke()    market    thesis    verifier   portfolio   checks  
 just calls `graph_workflow.graph.invoke()`. Having two state schemas
 (`GraphState` defined twice with different fields) is a bug waiting to happen.
 
-### ⚠️ `pe_ratio` never populated
+###  `pe_ratio` never populated
 
 `thesis_node` looks up `info.get("pe_ratio")` but `market_data_node` never sets
 it. Result: every valuation score defaults to `0.5`. Fix:
@@ -342,7 +342,7 @@ data[ticker] = {
 }
 ```
 
-### ⚠️ No retry cap if you reintroduce the loop
+###  No retry cap if you reintroduce the loop
 
 If you re-add `verifier → thesis` retry, add:
 
@@ -355,7 +355,7 @@ class GraphState(TypedDict):
 And in `thesis_node`: `"iterations": state.get("iterations", 0) + 1`.
 Then cap in the router: `if state["iterations"] >= 3: return END`.
 
-### ⚠️ Module-level LLM
+###  Module-level LLM
 
 ```python
 llm = ChatOllama(model="llama3.2:3b", temperature=0)   # at import time
@@ -370,7 +370,7 @@ def build_graph(llm: ChatOllama | None = None):
     ...
 ```
 
-### ⚠️ `verifier_node` mutates thesis
+###  `verifier_node` mutates thesis
 
 It returns `{"verifier_passed": True, "thesis": {"raw": raw, "parsed": parsed}}`
 — writing back the same `thesis`. Harmless but redundant. Prefer to just

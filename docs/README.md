@@ -13,7 +13,7 @@ while a local **Ollama LLM** writes the final human-readable explanation.
 
 ---
 
-## 🎯 What It Does
+##  What It Does
 
 Given a list of stock tickers, the pipeline:
 
@@ -28,18 +28,18 @@ No API keys. No cloud. Runs entirely on your machine.
 
 ---
 
-## 🏗️ Orchestration Architecture
+##  Orchestration Architecture
 
 ```mermaid
 flowchart LR
-    Start([START]) --> Market["📊 market<br/>yfinance 1mo returns"]
-    Market --> Thesis["💡 thesis<br/>RULE-BASED<br/>Buy/Hold/Sell"]
-    Thesis --> Verifier{"✅ verifier<br/>JSON schema check"}
-    Verifier -->|pass| Portfolio["💼 portfolio<br/>weighted allocation"]
+    Start([START]) --> Market[" market<br/>yfinance 1mo returns"]
+    Market --> Thesis[" thesis<br/>RULE-BASED<br/>Buy/Hold/Sell"]
+    Thesis --> Verifier{" verifier<br/>JSON schema check"}
+    Verifier -->|pass| Portfolio[" portfolio<br/>weighted allocation"]
     Verifier -->|fail| End1([END])
 
-    Portfolio --> Consistency["🧮 consistency_verifier<br/>portfolio sanity checks"]
-    Consistency --> Explanation["📝 explanation<br/>LLM narrative"]
+    Portfolio --> Consistency[" consistency_verifier<br/>portfolio sanity checks"]
+    Consistency --> Explanation[" explanation<br/>LLM narrative"]
     Explanation --> End2([END])
 
     subgraph External["External Services"]
@@ -60,7 +60,7 @@ flowchart LR
 
 ---
 
-## 🧠 Agents at a Glance
+##  Agents at a Glance
 
 | # | Node | Type | Role | Writes to state |
 |---|------|------|------|-----------------|
@@ -69,14 +69,14 @@ flowchart LR
 | 3 | `verifier` | **Deterministic** | JSON schema validation | `verifier_passed` |
 | 4 | `portfolio` | **Deterministic** | Weighted allocation | `portfolio` |
 | 5 | `consistency_verifier` | **Deterministic** | Portfolio sanity checks | `portfolio_checks` |
-| 6 | `explanation` | 🧠 **LLM** | Writes narrative | `explanation` |
+| 6 | `explanation` |  **LLM** | Writes narrative | `explanation` |
 
 **Only 1 of 6 nodes calls an LLM** — the rest are pure Python. This makes the
 output **reproducible and auditable**.
 
 ---
 
-## 📐 The Rules (Deterministic Logic)
+##  The Rules (Deterministic Logic)
 
 ### Recommendation (from 1-month return)
 
@@ -120,7 +120,7 @@ Where `recommendation ∈ {Buy:3, Hold:2, Sell:1}`.
 
 ---
 
-## 🚀 Quick Start
+##  Quick Start
 
 ### Prerequisites
 
@@ -174,7 +174,7 @@ Based on the 1-month return of +X%, AAPL received a Buy recommendation...
 
 ---
 
-## 📂 Project Structure
+##  Project Structure
 
 ```
 equity-research-multiagent/
@@ -198,7 +198,7 @@ equity-research-multiagent/
 
 ---
 
-## 🧪 Testing
+##  Testing
 
 ```bash
 pytest tests/ -v
@@ -206,7 +206,7 @@ pytest tests/ -v
 
 ---
 
-## 🛠️ Tech Stack
+##  Tech Stack
 
 | Layer | Technology |
 |-------|-----------|
@@ -217,7 +217,7 @@ pytest tests/ -v
 
 ---
 
-## 🗺️ Roadmap
+##  Roadmap
 
 - [ ] Add P/E ratio to `market_data` (currently `pe` is looked up but never populated)
 - [ ] Move `llm = ChatOllama(...)` inside `build_graph()` so model/temp are configurable
@@ -228,13 +228,13 @@ pytest tests/ -v
 
 ---
 
-## ⚠️ Disclaimer
+##  Disclaimer
 
 **Educational use only.** Not financial advice.
 The deterministic rules are intentionally simple and are **not** a trading strategy.
 
 ---
 
-## 📜 License
+##  License
 
 MIT — see [LICENSE](LICENSE).
