@@ -1,0 +1,6 @@
+streamlit
+workflow-graph 
+langgraph
+langchain-ollama
+yfinance
+pandas
